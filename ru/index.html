@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EXIT THE LOOP — освободи сознание</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{graphite:'#1C1C1E',neon:'#39FF14','neon-dim':'#2ecc0f',},fontFamily:{sans:['-apple-system','BlinkMacSystemFont','SF Pro Display','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif'],},},},}</script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}html,body{margin:0;padding:0;overflow-x:hidden}body{background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    .screen{display:none;opacity:0;transform:translateY(24px);transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1);min-height:100dvh;width:100%}
+    .screen.active{display:flex;flex-direction:column;align-items:center;justify-content:center}.screen.visible{opacity:1;transform:translateY(0)}
+    @keyframes greetFade{0%{opacity:0;transform:translateY(10px) scale(.97)}15%{opacity:1;transform:translateY(0) scale(1)}85%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-10px) scale(.97)}}
+    .greet-word{position:absolute;animation:greetFade 2s ease forwards;font-weight:200;letter-spacing:-.02em}
+    .neon-glow{box-shadow:0 0 8px rgba(57,255,20,.35),0 0 24px rgba(57,255,20,.12);transition:box-shadow .3s,transform .2s}
+    .neon-glow:hover{box-shadow:0 0 14px rgba(57,255,20,.55),0 0 40px rgba(57,255,20,.2);transform:translateY(-1px)}.neon-glow:active{transform:scale(.97)}
+    .card-select{border:1.5px solid rgba(255,255,255,.1);background:rgba(28,28,30,.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:border-color .25s,box-shadow .25s,transform .2s;cursor:pointer}
+    .card-select:hover{border-color:rgba(57,255,20,.35);transform:translateY(-2px)}
+    .card-select.selected{border-color:#39FF14;box-shadow:0 0 12px rgba(57,255,20,.3),inset 0 0 24px rgba(57,255,20,.05)}
+    .cb-custom{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:1.5px solid rgba(255,255,255,.2);border-radius:6px;background:rgba(28,28,30,.5);cursor:pointer;transition:all .2s;flex-shrink:0;position:relative}
+    .cb-custom:checked{background:#39FF14;border-color:#39FF14}
+    .cb-custom:checked::after{content:'';position:absolute;left:6px;top:2px;width:6px;height:12px;border:solid #000;border-width:0 2px 2px 0;transform:rotate(45deg)}
+    .select-hi{appearance:none;-webkit-appearance:none;background:rgba(28,28,30,.7) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 16px center;border:1.5px solid rgba(255,255,255,.12);color:#fff;border-radius:12px;padding:14px 44px 14px 18px;font-size:16px;width:100%;cursor:pointer;transition:border-color .25s,box-shadow .25s;backdrop-filter:blur(12px)}
+    .select-hi:focus{outline:none;border-color:#39FF14;box-shadow:0 0 12px rgba(57,255,20,.2)}.select-hi option{background:#1C1C1E;color:#fff}
+    .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);transition:all .3s}
+    .dot.active{background:#39FF14;box-shadow:0 0 8px rgba(57,255,20,.5);width:24px;border-radius:4px}
+    @keyframes counterPulse{0%,100%{text-shadow:0 0 8px rgba(57,255,20,.3)}50%{text-shadow:0 0 24px rgba(57,255,20,.6)}}
+    .counter-val{animation:counterPulse 2.5s ease-in-out infinite}
+    .sub-step{display:none;opacity:0;transform:translateX(30px);transition:opacity .4s,transform .4s}
+    .sub-step.active{display:flex;flex-direction:column;align-items:center}.sub-step.visible{opacity:1;transform:translateX(0)}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+    .fade-up{opacity:0;transform:translateY(16px);animation:fadeUp .6s ease forwards}
+    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+    .fade-up-d1{animation-delay:.1s}.fade-up-d2{animation-delay:.2s}.fade-up-d3{animation-delay:.3s}.fade-up-d4{animation-delay:.4s}
+    .lang-switch{position:fixed;top:16px;right:20px;z-index:999;display:flex;gap:4px}
+    .lang-switch a{padding:6px 14px;border-radius:8px;text-decoration:none;color:rgba(255,255,255,.4);font-size:0.8rem;font-weight:600;transition:all .2s;backdrop-filter:blur(12px);background:rgba(28,28,30,.5);border:1px solid rgba(255,255,255,.06)}
+    .lang-switch a.active{background:#39FF14;color:#000;border-color:#39FF14}
+    .lang-switch a:hover:not(.active){color:#fff}
+  </style>
+</head>
+<body>
+<div class="lang-switch"><a href="/ua/">UA</a><a href="/ru/" class="active">RU</a></div>
+
+<div id="screen-1" class="screen active px-6 py-10">
+  <div class="relative flex items-center justify-center h-24 mb-10 fade-up"><span id="greetWord" class="greet-word text-5xl md:text-7xl text-white/90"></span></div>
+  <div class="text-center mb-12 fade-up fade-up-d1">
+    <h1 class="text-3xl md:text-5xl font-extralight tracking-tight text-white mb-3">EXIT THE LOOP</h1>
+    <p class="text-white/40 text-sm md:text-base font-light tracking-wide">Освободи сознание</p>
+  </div>
+  <div class="w-full max-w-md space-y-5 fade-up fade-up-d2">
+    <div><label class="block text-white/50 text-xs uppercase tracking-widest mb-2 pl-1">Страна / Регион</label>
+      <select id="selectCountry" class="select-hi"><option value="" disabled selected>Выберите регион</option><option value="UA">Украина</option><option value="PL">Польша</option><option value="DE">Германия</option><option value="CZ">Чехия</option><option value="FR">Франция</option><option value="GB">Великобритания</option><option value="US">США</option><option value="OTHER">Другой</option></select></div>
+    <div><label class="block text-white/50 text-xs uppercase tracking-widest mb-2 pl-1">Язык интерфейса</label>
+      <select id="selectLang" class="select-hi"><option value="" disabled selected>Выберите язык</option><option value="uk">Українська</option><option value="ru">Русский</option><option value="en">English</option><option value="pl">Polski</option><option value="de">Deutsch</option></select></div>
+  </div>
+  <div class="mt-12 fade-up fade-up-d3"><button id="btnContinue1" disabled class="neon-glow bg-neon text-black font-semibold text-base md:text-lg px-10 py-3.5 rounded-full tracking-wide disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none transition-opacity">Продолжить</button></div>
+  <div class="flex items-center gap-2 mt-10 fade-up fade-up-d4"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+</div>
+
+<div id="screen-2" class="screen px-6 py-10">
+  <div class="w-full max-w-lg">
+    <div class="flex items-center justify-center gap-3 mb-10"><span id="stepLabel" class="text-white/30 text-sm uppercase tracking-widest">Шаг 1 из 3</span></div>
+    <div id="subA" class="sub-step active visible">
+      <h2 class="text-2xl md:text-3xl font-light text-center mb-2">Ваш пол</h2>
+      <p class="text-white/35 text-sm text-center mb-8">Это поможет адаптировать рекомендации</p>
+      <div class="grid grid-cols-2 gap-4 w-full max-w-xs">
+        <button data-gender="male" class="card-select rounded-2xl p-6 flex flex-col items-center gap-3 gender-btn"><svg class="w-10 h-10 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="5.5"/><path d="M15 5.5h4m0 0v4m0-4L14.5 10"/></svg><span class="text-white/80 text-sm font-medium">Мужской</span></button>
+        <button data-gender="female" class="card-select rounded-2xl p-6 flex flex-col items-center gap-3 gender-btn"><svg class="w-10 h-10 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="9" r="5.5"/><path d="M12 14.5V21m-3-3h6"/></svg><span class="text-white/80 text-sm font-medium">Женский</span></button>
+      </div>
+    </div>
+    <div id="subB" class="sub-step">
+      <h2 class="text-2xl md:text-3xl font-light text-center mb-2">Возраст</h2>
+      <p class="text-white/35 text-sm text-center mb-8">Выберите вашу возрастную категорию</p>
+      <div class="flex flex-col gap-3 w-full max-w-xs">
+        <button data-age="under18" class="card-select rounded-xl px-5 py-4 text-left age-btn"><span class="text-white/80 text-sm font-medium">До 18 лет</span><span class="block text-white/30 text-xs mt-0.5">Подростковый период</span></button>
+        <button data-age="19-40" class="card-select rounded-xl px-5 py-4 text-left age-btn"><span class="text-white/80 text-sm font-medium">19 — 40 лет</span><span class="block text-white/30 text-xs mt-0.5">Активная фаза</span></button>
+        <button data-age="41+" class="card-select rounded-xl px-5 py-4 text-left age-btn"><span class="text-white/80 text-sm font-medium">41+</span><span class="block text-white/30 text-xs mt-0.5">Зрелый возраст</span></button>
+      </div>
+    </div>
+    <div id="subC" class="sub-step">
+      <h2 class="text-2xl md:text-3xl font-light text-center mb-2">Деструктивные паттерны</h2>
+      <p class="text-white/35 text-sm text-center mb-8">Отметьте, что отнимает ваше время</p>
+      <div class="flex flex-col gap-3 w-full max-w-xs">
+        <label class="card-select rounded-xl px-5 py-4 flex items-center gap-4 cursor-pointer"><input type="checkbox" class="cb-custom pattern-cb" value="tiktok" /><div><span class="text-white/80 text-sm font-medium">TikTok / Shorts</span><span class="block text-white/30 text-xs mt-0.5">Бесконечная лента видео</span></div></label>
+        <label class="card-select rounded-xl px-5 py-4 flex items-center gap-4 cursor-pointer"><input type="checkbox" class="cb-custom pattern-cb" value="games" /><div><span class="text-white/80 text-sm font-medium">Игры</span><span class="block text-white/30 text-xs mt-0.5">Мобильные и браузерные</span></div></label>
+        <label class="card-select rounded-xl px-5 py-4 flex items-center gap-4 cursor-pointer"><input type="checkbox" class="cb-custom pattern-cb" value="news" /><div><span class="text-white/80 text-sm font-medium">Новостной скроллинг</span><span class="block text-white/30 text-xs mt-0.5">Думскроллинг и FOMO</span></div></label>
+        <label class="card-select rounded-xl px-5 py-4 flex items-center gap-4 cursor-pointer"><input type="checkbox" class="cb-custom pattern-cb" value="busyness" /><div><span class="text-white/80 text-sm font-medium">Искусственная занятость</span><span class="block text-white/30 text-xs mt-0.5">Имитация продуктивности</span></div></label>
+      </div>
+      <button id="btnFinishOnboard" disabled class="neon-glow bg-neon text-black font-semibold text-sm px-8 py-3 rounded-full mt-8 disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none transition-opacity">Далее</button>
+    </div>
+    <div class="text-center mt-8"><button id="btnBack2" class="text-white/25 text-xs uppercase tracking-widest hover:text-white/50 transition-colors">&larr; Назад</button></div>
+  </div>
+  <div class="flex items-center gap-2 mt-10"><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+</div>
+
+<div id="screen-3" class="screen px-6 py-10">
+  <div class="w-full max-w-xl text-center">
+    <h2 class="text-3xl md:text-5xl font-extralight tracking-tight leading-tight mb-6 fade-up">Экран поглощает твою жизнь быстрее,<br/>чем наступает <span class="text-neon font-normal">физическая смерть</span>.</h2>
+    <p class="text-white/40 text-base md:text-lg font-light leading-relaxed mb-10 fade-up fade-up-d1">Каждый свайп в TikTok — это добровольный отказ от собственной субъектности. Алгоритмы оптимизировали доставку дешёвого дофамина — ты теряешь <span class="text-white/70">часы каждый день</span> в цифровой ловушке.</p>
+    <div class="bg-graphite/60 backdrop-blur-xl rounded-3xl p-8 md:p-10 text-left border border-white/[.06] mb-10 fade-up fade-up-d2">
+      <div class="flex items-center gap-3 mb-5"><div class="w-10 h-10 rounded-full bg-neon/15 flex items-center justify-center"><svg class="w-5 h-5 text-neon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><h3 class="text-xl font-light tracking-tight">Манифест освобождения</h3></div>
+      <p class="text-white/55 text-sm leading-relaxed mb-4">Ты — не потребитель контента. Ты — творец собственной жизни. Там, на «том свете», нет кнопки «лайк». Там некому будет показать твою статистику просмотров.</p>
+      <ul class="text-white/45 text-xs space-y-2">
+        <li class="flex items-start gap-2"><span class="text-neon mt-0.5">&#10003;</span><span>Когнитивное трение — чёрно-белый экран, удаление лент</span></li>
+        <li class="flex items-start gap-2"><span class="text-neon mt-0.5">&#10003;</span><span>Созидание вместо потребления — код, ремонт, искусство</span></li>
+        <li class="flex items-start gap-2"><span class="text-neon mt-0.5">&#10003;</span><span>Глубина внимания — книги, документация, сложное кино</span></li>
+        <li class="flex items-start gap-2"><span class="text-neon mt-0.5">&#10003;</span><span>Чистые пространства — зоны без гаджетов дома и на работе</span></li>
+      </ul>
+    </div>
+    <div class="fade-up fade-up-d3">
+      <p class="text-white/30 text-xs uppercase tracking-widest mb-3">Твоя упущенная выгода (с начала года)</p>
+      <div class="counter-val text-4xl md:text-6xl font-extralight text-neon tracking-tight" id="counterLost">$0.00</div>
+      <p class="text-white/25 text-xs mt-2">При средней стоимости времени $25/час</p>
+    </div>
+    <div class="mt-12 fade-up fade-up-d4"><button id="btnContinue3" class="neon-glow bg-neon text-black font-semibold text-base px-10 py-3.5 rounded-full tracking-wide">Узнать больше</button></div>
+    <div class="mt-6"><button id="btnBack3" class="text-white/25 text-xs uppercase tracking-widest hover:text-white/50 transition-colors">&larr; Назад</button></div>
+  </div>
+  <div class="flex items-center gap-2 mt-10"><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
+</div>
+
+<div id="screen-4" class="screen px-6 py-10">
+  <div class="w-full max-w-2xl text-center">
+    <h2 class="text-3xl md:text-5xl font-extralight tracking-tight mb-6 fade-up">Как выйти из петли</h2>
+    <div class="grid grid-cols-1 gap-4 fade-up fade-up-d1 w-full max-w-lg mx-auto">
+      <div class="bg-graphite/60 backdrop-blur-xl rounded-2xl p-5 text-left border border-white/[.06]">
+        <span class="text-neon/60 text-xs uppercase tracking-widest">Шаг 1</span>
+        <h3 class="text-white/90 text-base font-medium mt-1">Когнитивное трение</h3>
+        <p class="text-white/40 text-xs mt-1">Переведи экран в чёрно-белый режим. Удали ленты. Блокируй уведомления. Мозг должен начать испытывать скуку.</p>
+      </div>
+      <div class="bg-graphite/60 backdrop-blur-xl rounded-2xl p-5 text-left border border-white/[.06]">
+        <span class="text-neon/60 text-xs uppercase tracking-widest">Шаг 2</span>
+        <h3 class="text-white/90 text-base font-medium mt-1">Созидание вместо потребления</h3>
+        <p class="text-white/40 text-xs mt-1">Стань генератором: код, ремонт, ручной труд возвращают субъектность и реальную дофаминовую отдачу.</p>
+      </div>
+      <div class="bg-graphite/60 backdrop-blur-xl rounded-2xl p-5 text-left border border-white/[.06]">
+        <span class="text-neon/60 text-xs uppercase tracking-widest">Шаг 3</span>
+        <h3 class="text-white/90 text-base font-medium mt-1">Глубина внимания</h3>
+        <p class="text-white/40 text-xs mt-1">Замени клиповый контент длинными нарративами. Читай книги. Смотри сложное кино без смартфона в руках.</p>
+      </div>
+      <div class="bg-graphite/60 backdrop-blur-xl rounded-2xl p-5 text-left border border-white/[.06]">
+        <span class="text-neon/60 text-xs uppercase tracking-widest">Шаг 4</span>
+        <h3 class="text-white/90 text-base font-medium mt-1">Чистые пространства</h3>
+        <p class="text-white/40 text-xs mt-1">Зоны без гаджетов дома. Живое общение без посредников. Цифровой комендантский час после 22:00.</p>
+      </div>
+    </div>
+    <div class="mt-8 fade-up fade-up-d2"><a href="https://gemini.google.com/share/1544473b9807" target="_blank" class="neon-glow bg-neon text-black font-semibold text-sm px-8 py-3 rounded-full inline-block">Читать полный манифест</a></div>
+    <div class="mt-6 fade-up fade-up-d3"><button id="btnBack4" class="text-white/25 text-xs uppercase tracking-widest hover:text-white/50 transition-colors">&larr; Назад</button></div>
+  </div>
+  <div class="flex items-center gap-2 mt-10"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div></div>
+</div>
+
+<script>
+(function(){'use strict';const state={screen:1,subStep:'A',gender:null,age:null,patterns:[],hoursPerDay:4.8,costPerHour:25};const $=s=>document.querySelector(s);const $$=s=>document.querySelectorAll(s);const screens={1:$('#screen-1'),2:$('#screen-2'),3:$('#screen-3'),4:$('#screen-4')};
+function goToScreen(n){const cur=screens[state.screen];const next=screens[n];if(!next)return;cur.classList.remove('visible');setTimeout(()=>{cur.classList.remove('active');next.classList.add('active');void next.offsetWidth;requestAnimationFrame(()=>next.classList.add('visible'))},350);state.screen=n;if(n===3)startCounter()}
+function goToSubStep(step){const map={A:$('#subA'),B:$('#subB'),C:$('#subC')};const labels={A:'Шаг 1 из 3',B:'Шаг 2 из 3',C:'Шаг 3 из 3'};const cur=map[state.subStep];const next=map[step];if(!next)return;cur.classList.remove('visible');setTimeout(()=>{cur.classList.remove('active');next.classList.add('active');void next.offsetWidth;requestAnimationFrame(()=>next.classList.add('visible'))},300);state.subStep=step;$('#stepLabel').textContent=labels[step]||''}
+const greetings=['Bonjour','Hello','Привет','Hola','Ciao'];let gi=0;const greetEl=$('#greetWord');
+function showNextGreet(){greetEl.textContent=greetings[gi];greetEl.style.animation='none';void greetEl.offsetWidth;greetEl.style.animation='greetFade 2s ease forwards';gi=(gi+1)%greetings.length}
+showNextGreet();setInterval(showNextGreet,2200);
+const selCountry=$('#selectCountry'),selLang=$('#selectLang'),btn1=$('#btnContinue1');
+function checkScreen1(){btn1.disabled=!(selCountry.value&&selLang.value)}
+selCountry.addEventListener('change',checkScreen1);selLang.addEventListener('change',checkScreen1);
+btn1.addEventListener('click',()=>{goToScreen(2);goToSubStep('A')});
+$$('.gender-btn').forEach(b=>b.addEventListener('click',function(){$$('.gender-btn').forEach(x=>x.classList.remove('selected'));this.classList.add('selected');state.gender=this.dataset.gender;setTimeout(()=>goToSubStep('B'),400)}));
+$$('.age-btn').forEach(b=>b.addEventListener('click',function(){$$('.age-btn').forEach(x=>x.classList.remove('selected'));this.classList.add('selected');state.age=this.dataset.age;setTimeout(()=>goToSubStep('C'),400)}));
+const btnFinish=$('#btnFinishOnboard');$$('.pattern-cb').forEach(cb=>cb.addEventListener('change',function(){this.closest('.card-select').classList.toggle('selected',this.checked);state.patterns=[...$$('.pattern-cb:checked')].map(c=>c.value);btnFinish.disabled=state.patterns.length===0}));
+btnFinish.addEventListener('click',()=>goToScreen(3));$('#btnBack2').addEventListener('click',()=>goToScreen(1));
+let counterRAF=null;
+function startCounter(){const el=$('#counterLost');const now=new Date();const startOfYear=new Date(now.getFullYear(),0,1);const daysPassed=Math.max(1,Math.floor((now-startOfYear)/86400000));const m=Math.max(1,state.patterns.length)*0.7+0.6;const hpd=state.hoursPerDay*m;const total=daysPassed*hpd*state.costPerHour;const d=2200;const st=performance.now();function tick(ts){const p=Math.min((ts-st)/d,1);const ease=1-Math.pow(1-p,3);el.textContent='$'+(total*ease).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});if(p<1)counterRAF=requestAnimationFrame(tick)};if(counterRAF)cancelAnimationFrame(counterRAF);counterRAF=requestAnimationFrame(tick)}
+$('#btnContinue3').addEventListener('click',()=>goToScreen(4));$('#btnBack3').addEventListener('click',()=>goToScreen(2));$('#btnBack4').addEventListener('click',()=>goToScreen(3));requestAnimationFrame(()=>{screens[1].classList.add('visible')})})();
+</script>
+</body>
+</html>
